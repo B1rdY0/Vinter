@@ -4,45 +4,96 @@ using System.Numerics;
 
 
 
-Raylib.InitWindow(1900,1080, "The Game");
+Raylib.InitWindow(1900, 1080, "The Game");
 
 
 Raylib.SetTargetFPS(60);
 
 
-Texture2D Kratos = Raylib.LoadTexture("Kratos.png");
-Texture2D hell = Raylib.LoadTexture("Hell_stage.png");
+Texture2D Kratos = Raylib.LoadTexture("Kratos(EXsmall).png");
+Texture2D Demonking = Raylib.LoadTexture("DemonKing(SmallFlip).png");
+Texture2D hell = Raylib.LoadTexture("hell(1).png");
+Texture2D KratosATT = Raylib.LoadTexture("Kraosswing");
 
-Rectangle Kratosrect = new Rectangle(100,50, Kratos.width,Kratos.height);
+
+Rectangle Kratosrect = new Rectangle(100, 385, Kratos.width, Kratos.height);
+Rectangle DemonKingRect = new Rectangle(1600, 250, Demonking.width, Demonking.height);
+Rectangle KratosSwing = new Rectangle(100, 385, Kratos.width, Kratos.height);
 
 string level = "hell";
-float speed = 15;
+float speed = 10;
+float velocity = 0;
+float Gravity = 5;
+bool isGrounded = false;
 
-while(!Raylib.WindowShouldClose())
+while (!Raylib.WindowShouldClose())
 {
-    
-    
-    if(level == "hell"  || level == "fairy_land"  || level == "Abyss")
+
+    if (level == "hell" || level == "fairy_land" || level == "Abyss")
     {
         Vector2 movement = ReadMovement(speed);
 
         Kratosrect.x += movement.X;
         Kratosrect.y += movement.Y;
+
+        velocity += Gravity;
+
+        if (Kratosrect.y >= 470 - Kratosrect.height)
+        {
+            velocity = 0;
+            isGrounded = true;
+            Kratosrect.y = 470 - Kratosrect.height;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && isGrounded)
+        {
+            velocity = -35;
+        }
+
+        Kratosrect.y += velocity;
     }
-    
-    
+
+    if (Kratosrect.x >= 1920 || Kratosrect.x < 0)
+    {
+        Kratosrect.x = 0;
+    }
+
+    if (Raylib.IsKeyPressed(KeyboardKey.KEY_W))
+    {
+        Raylib.BeginDrawing();
+
+        Raylib.ClearBackground(Color.BLACK);
+
+        Raylib.DrawTexture(KratosATT, 0, 0, Color.WHITE);
+
+        Raylib.EndDrawing();
+
+    }
+
+
+
+
+
+
+
     if (level == "hell")
     {
 
-    Raylib.BeginDrawing();
+        Raylib.BeginDrawing();
 
-    Raylib.ClearBackground(Color.BLACK);
+        Raylib.ClearBackground(Color.BLACK);
 
-    Raylib.DrawTexture(hell,0,0,Color.BLACK);
+        Raylib.DrawTexture(hell, 0, 0, Color.WHITE);
 
-    Raylib.DrawTexture(Kratos,(int)Kratosrect.x, (int)Kratosrect.y, Color.WHITE);
+        Raylib.DrawTexture(Kratos, (int)Kratosrect.x, (int)Kratosrect.y, Color.WHITE);
 
-    Raylib.EndDrawing();
+        Raylib.DrawTexture(Demonking, (int)DemonKingRect.x, (int)DemonKingRect.y, Color.WHITE);
+
+        Raylib.EndDrawing();
 
     }
 
@@ -54,8 +105,8 @@ while(!Raylib.WindowShouldClose())
 static Vector2 ReadMovement(float speed)
 {
     Vector2 movement = new Vector2();
-    if(Raylib.IsKeyDown(KeyboardKey.KEY_D)) movement.X = speed;
-    if(Raylib.IsKeyDown(KeyboardKey.KEY_A)) movement.X = -speed;
+    if (Raylib.IsKeyDown(KeyboardKey.KEY_D)) movement.X = speed;
+    if (Raylib.IsKeyDown(KeyboardKey.KEY_A)) movement.X = -speed;
 
     return movement;
 }
