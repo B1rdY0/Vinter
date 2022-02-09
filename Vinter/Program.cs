@@ -19,19 +19,19 @@ Texture2D Fireball = Raylib.LoadTexture("Fireball");
 
 List<Fireball> fireballs = new List<Fireball>();
 
-Fireball f1 = new Fireball();
-f1.rect.x = 50;
-f1.rect.y = 50;
-Fireball f2 = new Fireball();
-f1.rect.x = 50;
-f1.rect.y = 150;
+//Fireball f1 = new Fireball();
+//f1.rect.x = 50;
+//f1.rect.y = 50;
+// Fireball f2 = new Fireball();
+// f1.rect.x = 50;
+// f1.rect.y = 150;
 
-fireballs.Add(f1);
-fireballs.Add(f2);
+//fireballs.Add(f1);
+//fireballs.Add(f2);
 
 
 
-Rectangle Kratosrect = new Rectangle(100, 385, Kratos.width, Kratos.height);
+Rectangle Kratosrect = new Rectangle(70, 355, Kratos.width, Kratos.height);
 Rectangle DemonKingRect = new Rectangle(1600, 250, Demonking.width, Demonking.height);
 Rectangle KratosSwing = new Rectangle(100, 385, Kratos.width, Kratos.height);
 Rectangle Fireballrect = new Rectangle(20, 20, Fireball.width, Fireball.height);
@@ -41,6 +41,7 @@ float speed = 10;
 float velocity = 0;
 float Gravity = 5;
 bool isGrounded = false;
+bool fireballrect = false;
 
 Vector2 Fireballdirection = new Vector2(1, 0);
 
@@ -61,8 +62,6 @@ while (!Raylib.WindowShouldClose())
             // Den här gör vectorn till 1 alltså normalizar
             Fireballdirection = Vector2.Normalize(movement);
         }
-
-
 
         if (Kratosrect.y >= 470 - Kratosrect.height)
         {
@@ -88,22 +87,32 @@ while (!Raylib.WindowShouldClose())
         Kratosrect.x = 0;
     }
 
-    if (Raylib.IsKeyPressed(KeyboardKey.KEY_W))
+    if (Raylib.IsKeyPressed(KeyboardKey.KEY_F))
     {
-        Raylib.BeginDrawing();
-
-        Raylib.ClearBackground(Color.BLACK);
-
-        Raylib.DrawTexture(KratosATT, 0, 0, Color.WHITE);
-
-        Raylib.EndDrawing();
+        Fireball f1 = new Fireball();
+        f1.rect.x = Kratosrect.x;
+        f1.rect.y = Kratosrect.y;
+        fireballs.Add(f1);
     }
 
-
-    // if (Raylib.IsKeyPressed(KeyboardKey.KEY_F))
+    // for ()
     // {
-
+    //     if(DemonKingRect.x >= Fireballrect.x)
+    //     {
+    //         fireballrect = true;
+    //     }
     // }
+    // if (Raylib.IsKeyPressed(KeyboardKey.KEY_W))
+    // {
+    //     Raylib.BeginDrawing();
+
+    //     Raylib.ClearBackground(Color.BLACK);
+
+    //     Raylib.DrawTexture(KratosATT, 0, 0, Color.WHITE);
+
+    //     Raylib.EndDrawing();
+    // }
+
 
     if (level == "hell")
     {
@@ -112,6 +121,8 @@ while (!Raylib.WindowShouldClose())
         {
             fireballs[i].Update();
         }
+
+
 
 
         Raylib.BeginDrawing();
@@ -135,13 +146,10 @@ while (!Raylib.WindowShouldClose())
 
 }
 
-
 static Vector2 ReadMovement(float speed)
 {
     Vector2 movement = new Vector2();
     if (Raylib.IsKeyDown(KeyboardKey.KEY_D)) movement.X = speed;
     if (Raylib.IsKeyDown(KeyboardKey.KEY_A)) movement.X = -speed;
-
     return movement;
 }
-

@@ -1,6 +1,5 @@
 using System;
 using System.Numerics;
-
 using Raylib_cs;
 
 
@@ -25,5 +24,7 @@ public class Fireball
         rect.x += direction.X;
         rect.y += direction.Y;
     }
+
+    
 
 }
